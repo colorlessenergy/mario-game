@@ -213,6 +213,7 @@ var player;
 var goomba;
 
 goomba.onload = function () {
+  console.log("goomba loaded");
   tiles.onload = function () {
     player = new Player(canvas, goomba, tiles, animations);
     goomba = new Goomba(canvas, goomba, animations);

@@ -212,6 +212,8 @@ class Player {
 var player;
 var goomba;
 
+console.log(goomba, tiles);
+
 goomba.onload = function () {
   console.log("goomba loaded");
   tiles.onload = function () {

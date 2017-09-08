@@ -9,7 +9,7 @@ canvas.height = 300;
 var goomba = new Image();
 var tiles = new Image();
 
-tiles.src = "images/tile.png"
+tiles.src = "images/tile.png";
 goomba.src = "images/sheet.png";
 
 var tickCount = 0;
@@ -220,5 +220,6 @@ goomba.onload = function () {
     player.gameLoop();
     animations.movement = animations.walk(player);
     animations.jumping = animations.jumpingDefined(player);
+    console.log(player, goomba, "called: tiles and goomba loaded");
   }
 }

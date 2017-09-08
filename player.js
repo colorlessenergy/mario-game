@@ -3,8 +3,8 @@ console.log("player.js logo");
 var canvas = document.getElementById("goomba");
 var wallArray = [];
 
-canvas.width = 500;
-canvas.height = 300;
+canvas.width = 480;
+canvas.height = 288;
 
 var goomba = new Image();
 var tiles = new Image();
@@ -16,6 +16,13 @@ var tickCount = 0;
 
 var map =
 [
+  [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+  [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+  [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+  [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+  [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+  [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+  [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
   [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
   [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
 ]
@@ -155,54 +162,41 @@ class Player {
 
   drawTile() {
     var parent = this;
-    var tileX = 0;
-    var tileY = 0;
     wallArray = [];
 
 
     map.forEach(function (e, currentIndex) {
       e.forEach(function (s, value) {
-        if (tileX === 25) {
-          tileX = 0;
-        }
-        if (s === 0 && currentIndex === 0) {
+        if (s === 2) {
+          parent.context.drawImage(
+            parent.tile,
+            759,
+            0,
+            32,
+            32,
+            value * 32,
+            currentIndex * 32,
+            32,
+            32
+          );
+        } else if (s === 0) {
           parent.context.drawImage(
             parent.tile,
             0,
             0,
             32,
             32,
-            tileX * 32,
-            canvas.height - 32,
+            value * 32,
+            currentIndex * 32,
             32,
             32
           );
           wallArray.push({
-            x: tileX * 32,
-            y: canvas.height - 32,
+            x: value * 32,
+            y: currentIndex * 32,
             h: 32,
             w: 32
           });
-          tileX++;
-        } else if (s === 0 && currentIndex === 1) {
-          parent.context.drawImage(
-            parent.tile,
-            0,
-            0,
-            32,
-            32,
-            tileX * 32,
-            canvas.height - 64,
-            32,
-            32
-          );
-          wallArray.push({
-            x: tileX * 32,
-            y: canvas.height - 64,
-            h: 32,
-            w: 32
-          });
-          tileX++;
         }
     });
   });

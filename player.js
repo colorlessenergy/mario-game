@@ -212,14 +212,12 @@ class Player {
 var player;
 var goomba;
 
-console.log(goomba, tiles);
-
 goomba.onload = function () {
+  console.log("loaded");
     player = new Player(canvas, goomba, tiles, animations);
     goomba = new Goomba(canvas, goomba, animations);
 
     player.gameLoop();
     animations.movement = animations.walk(player);
     animations.jumping = animations.jumpingDefined(player);
-    console.log(player, goomba, "called: tiles and goomba loaded");
 }

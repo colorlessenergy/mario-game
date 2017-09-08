@@ -1,3 +1,5 @@
+console.log("player.js logo");
+
 var canvas = document.getElementById("goomba");
 var wallArray = [];
 

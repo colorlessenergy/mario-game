@@ -1,3 +1,5 @@
+console.log("goomba loaded");
+
 class Goomba {
   constructor (canvas, sprite, animations) {
     this.canvas = canvas;

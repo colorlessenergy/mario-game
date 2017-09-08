@@ -1,3 +1,5 @@
+console.log("animations loaded");
+
 var animations = {
   currentFrame: 0,
 

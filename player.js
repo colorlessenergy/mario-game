@@ -215,8 +215,6 @@ var goomba;
 console.log(goomba, tiles);
 
 goomba.onload = function () {
-  console.log("goomba loaded");
-  tiles.onload = function () {
     player = new Player(canvas, goomba, tiles, animations);
     goomba = new Goomba(canvas, goomba, animations);
 
@@ -224,5 +222,4 @@ goomba.onload = function () {
     animations.movement = animations.walk(player);
     animations.jumping = animations.jumpingDefined(player);
     console.log(player, goomba, "called: tiles and goomba loaded");
-  }
 }

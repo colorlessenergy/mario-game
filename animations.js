@@ -1,4 +1,5 @@
 console.log("animations loaded");
+var leftM = false;
 
 var animations = {
   currentFrame: 0,
@@ -31,6 +32,7 @@ var animations = {
         desHeight: 64
       }
       }
+
     } else if (player.vel.y > 1) {
       if (player.size === "small") {
         player.s = animations.jumping;
@@ -50,6 +52,7 @@ var animations = {
       } else {
         player.pos.x += player.vel.x;
         if (frames % 5 === 0) {
+          leftM = false;
           if (player.size === "small") {
             player.s = animations.movement[animations.currentFrame];
             animations.currentFrame++;
@@ -66,13 +69,26 @@ var animations = {
 
   if (animations.isDown(37)) {
     if (player.vel.y !== 0) {
-      player.s = animations.jumping;
+      if (player.size === "small") {
+
+        player.s = animations.jumping;
+      } else if (player.size === "big") {
+        player.s = animations.bigJumping;
+      }
       player.pos.x -= player.vel.x;
     } else {
       player.pos.x -= player.vel.x;
+      leftM = true;
       if (frames % 5 === 0) {
-        player.s = animations.movement[animations.currentFrame];
-        animations.currentFrame++;
+
+        if (player.size === "small") {
+          player.s = animations.movement[animations.currentFrame];
+          animations.currentFrame++;
+        } else if (player.size === "big") {
+          player.s = animations.bigMovement[animations.currentFrame];
+          animations.currentFrame++;
+        }
+
         if (animations.currentFrame > 2) {
           animations.currentFrame = 0;
         }

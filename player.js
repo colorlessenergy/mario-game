@@ -116,7 +116,7 @@ class Player {
     main.context.clearRect(0, 0, canvas.width, canvas.height);
     // change value of camx till it looks good
 
-    var camX = main.clamp(-main.pos.x + canvas.width / 130, -1000, 1000 - canvas.width);
+    var camX = main.clamp(-main.pos.x + canvas.width / 2, -1000, 1000 - canvas.width);
     var camY = main.clamp(-main.pos.y + canvas.height/2, 0, 0);
     main.context.translate( camX, camY );
 
@@ -145,29 +145,68 @@ class Player {
 
   render(pos) {
     if (player.size === "small") {
-      this.context.drawImage(
-        this.sprite,
-        pos.sourceX || 194,
-        pos.sourceY || 86,
-        pos.sourceWidth || 32,
-        pos.sourceHeight || 32,
-        this.pos.x,
-        this.pos.y,
-        pos.desWidth || 32,
-        pos.desHeight || 32
-      );
+      if (leftM) {
+        this.context.save();
+
+        this.context.scale(-1, 1);
+        this.context.drawImage(
+          this.sprite,
+          pos.sourceX || 194,
+          pos.sourceY || 86,
+          pos.sourceWidth || 32,
+          pos.sourceHeight || 32,
+          this.pos.x * -1,
+          this.pos.y,
+          pos.desWidth || 32,
+          pos.desHeight || 32
+        );
+        this.context.restore();
+      } else {
+        this.context.drawImage(
+          this.sprite,
+          pos.sourceX || 194,
+          pos.sourceY || 86,
+          pos.sourceWidth || 32,
+          pos.sourceHeight || 32,
+          this.pos.x,
+          this.pos.y,
+          pos.desWidth || 32,
+          pos.desHeight || 32
+        );
+      }
     } else if (player.size === "big") {
-      this.context.drawImage(
-        this.sprite,
-        pos.sourceX || 0,
-        pos.sourceY || 0,
-        pos.sourceWidth || 32,
-        pos.sourceHeight || 64,
-        this.pos.x,
-        this.pos.y,
-        pos.desWidth || 32,
-        pos.desHeight || 64
-      );
+      console.log(leftM);
+
+      if (leftM) {
+        this.context.save();
+
+        this.context.scale(-1, 1);
+        this.context.drawImage(
+          this.sprite,
+          pos.sourceX || 0,
+          pos.sourceY || 0,
+          pos.sourceWidth || 32,
+          pos.sourceHeight || 64,
+          this.pos.x * - 1,
+          this.pos.y,
+          pos.desWidth || 32,
+          pos.desHeight || 64
+        );
+        this.context.restore();
+      } else {
+        this.context.drawImage(
+          this.sprite,
+          pos.sourceX || 0,
+          pos.sourceY || 0,
+          pos.sourceWidth || 32,
+          pos.sourceHeight || 64,
+          this.pos.x,
+          this.pos.y,
+          pos.desWidth || 32,
+          pos.desHeight || 64
+        );
+      }
+
     }
   }
 
@@ -201,7 +240,7 @@ class Player {
       } else if (player.size === "big") {
         if (player.pos.x < entity.x + entity.w &&
   				player.pos.x + 32 > entity.x &&
-  				player.pos.y < entity.y + entity.h && 62 + player.pos.y > entity.y) {
+  				player.pos.y < entity.y + entity.h && 64 + player.pos.y > entity.y) {
 
   				handleCollision(entity);
   			}
@@ -221,10 +260,10 @@ class Player {
       } else if (player.size === "big") {
         if (player.pos.y < entity.y && (player.pos.x + 32) > entity.x + 10 &&
             player.pos.x < (entity.x + entity.w) - 10 && player.vel.y >= 0) {
-              player.pos.y = entity.y - 62;
+              player.pos.y = entity.y - 64;
               player.vel.y = 0;
           } else if (player.pos.y > entity.y) {
-            player.pos.y = entity.y + 62;
+            player.pos.y = entity.y + 64;
           }
       }
 

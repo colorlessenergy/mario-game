@@ -37,7 +37,7 @@ class Player {
       y: 0
     },
     this.pos = {
-      x: 0,
+      x: 10,
       y: 0
     }
     this.size = "small";
@@ -69,17 +69,6 @@ class Player {
         desWidth: 24,
         desHeight: 32
       };
-    } else if (this.size === "big") {
-      this.stand = {
-        sourceX: 0,
-        sourceY: 0,
-        sourceWidth: 32,
-        sourceHeight: 64,
-        desX: this.pos.x,
-        desY: this.pos.y,
-        desWidth: 32,
-        desHeight: 64
-      }
     }
 
     this.jumps = {
@@ -132,8 +121,10 @@ class Player {
     player.gravity();
     player.collision();
     player.render(player.s);
-    goomba.walk();
-    goomba.render();
+    if (goomba) {
+      goomba.walk();
+      goomba.render();
+    }
 
     if (mushroom) {
       mushroom.gravity();
@@ -160,6 +151,7 @@ class Player {
           pos.desWidth || 32,
           pos.desHeight || 32
         );
+
         this.context.restore();
       } else {
         this.context.drawImage(
@@ -175,7 +167,6 @@ class Player {
         );
       }
     } else if (player.size === "big") {
-      console.log(leftM);
 
       if (leftM) {
         this.context.save();
@@ -211,12 +202,14 @@ class Player {
   }
 
   collision() {
-    var goombaValues = {
-      x: goomba.pos.x,
-      y: goomba.pos.y,
-      h: 35,
-      w: 32,
-      type: "goomba"
+    if (goomba) {
+      var goombaValues = {
+        x: goomba.pos.x,
+        y: goomba.pos.y,
+        h: 35,
+        w: 32,
+        type: "goomba"
+      }
     }
 
     if (mushroom) {
@@ -234,7 +227,6 @@ class Player {
         if (player.pos.x < entity.x + entity.w &&
   				player.pos.x + 32 > entity.x &&
   				player.pos.y < entity.y + entity.h && 32 + player.pos.y > entity.y) {
-
   				handleCollision(entity);
   			}
       } else if (player.size === "big") {
@@ -250,14 +242,15 @@ class Player {
 
     function handleCollision(entity) {
       if (player.size === "small") {
-        if (player.pos.y < entity.y && (player.pos.x + 32) > entity.x + 10 &&
-            player.pos.x < (entity.x + entity.w) - 10 && player.vel.y >= 0) {
-              player.pos.y = entity.y - 32;
-              player.vel.y = 0;
-          } else if (player.pos.y > entity.y) {
-            player.pos.y = entity.y + 32;
-          }
-      } else if (player.size === "big") {
+          if (player.pos.y < entity.y && (player.pos.x + 32) > entity.x + 10 &&
+              player.pos.x < (entity.x + entity.w) - 10 && player.vel.y >= 0) {
+                player.pos.y = entity.y - 32;
+                player.vel.y = 0;
+            } else if (player.pos.y > entity.y) {
+              player.pos.y = entity.y + 32;
+            }
+        }
+       else if (player.size === "big") {
         if (player.pos.y < entity.y && (player.pos.x + 32) > entity.x + 10 &&
             player.pos.x < (entity.x + entity.w) - 10 && player.vel.y >= 0) {
               player.pos.y = entity.y - 64;
@@ -266,11 +259,16 @@ class Player {
             player.pos.y = entity.y + 64;
           }
       }
-
+    if (goomba) {
       if (entity.type === "goomba") {
-        player.pos.x = 0;
-        goomba.pos.x = canvas.width - 32;
-      }
+          if (player.pos.y === 164) {
+            goomba = null;
+          } else if (player.vel.y === 0) {
+            player.pos.x = 10;
+            goomba.pos.x = canvas.width - 32;
+          }
+        }
+    }
 
       if (entity.type === "mushroom") {
         player.size = "big";
@@ -287,6 +285,7 @@ class Player {
       }
 
     }
+
     wallArray.forEach(function (wall) {
       entityCollisionDetection(wall)
     });
@@ -303,7 +302,9 @@ class Player {
 
 
 
-    entityCollisionDetection(goombaValues);
+    if (goomba) {
+      entityCollisionDetection(goombaValues);
+    }
     if (mushroom) {
       entityCollisionDetection(mushroomValues);
     }

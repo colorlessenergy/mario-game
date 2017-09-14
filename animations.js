@@ -3,6 +3,7 @@ var leftM = false;
 
 var animations = {
   currentFrame: 0,
+  currentFrameL: 0,
 
   update: function (frames, player) {
 
@@ -16,24 +17,7 @@ var animations = {
 			delete animations.pressed[event.keyCode];
 		});
 
-
-    if (player.vel.y === 0 && !animations.isDown(39)) {
-      if (player.size === "small") {
-        player.s = player.stand;
-      } else if (player.size === "big") {
-        player.s = {
-        sourceX: 0,
-        sourceY: 0,
-        sourceWidth: 32,
-        sourceHeight: 64,
-        desX: player.pos.x,
-        desY: player.pos.y,
-        desWidth: 32,
-        desHeight: 64
-      }
-      }
-
-    } else if (player.vel.y > 1) {
+if (player.vel.y > 1) {
       if (player.size === "small") {
         player.s = animations.jumping;
       } else if (player.size === "big") {
@@ -70,7 +54,6 @@ var animations = {
   if (animations.isDown(37)) {
     if (player.vel.y !== 0) {
       if (player.size === "small") {
-
         player.s = animations.jumping;
       } else if (player.size === "big") {
         player.s = animations.bigJumping;
@@ -78,19 +61,18 @@ var animations = {
       player.pos.x -= player.vel.x;
     } else {
       player.pos.x -= player.vel.x;
-      leftM = true;
       if (frames % 5 === 0) {
-
+        leftM = true;
         if (player.size === "small") {
-          player.s = animations.movement[animations.currentFrame];
-          animations.currentFrame++;
+          player.s = animations.movement[animations.currentFrameL];
+          animations.currentFrameL++;
         } else if (player.size === "big") {
-          player.s = animations.bigMovement[animations.currentFrame];
-          animations.currentFrame++;
+          console.log(animations.currentFrameL);
+          player.s = animations.bigMovement[animations.currentFrameL];
+          animations.currentFrameL++;
         }
-
-        if (animations.currentFrame > 2) {
-          animations.currentFrame = 0;
+        if (animations.currentFrameL > 2) {
+          animations.currentFrameL = 0;
         }
       }
     }
@@ -102,7 +84,6 @@ var animations = {
           player.s = animations.jumping;
         } else if (player.size === "big") {
           player.s = animations.bigJumping;
-          console.log(player.s);
         }
         player.vel.y -= 12;
     }
